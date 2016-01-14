@@ -160,7 +160,7 @@ function menu.execute(mnu, values, keyEvent)
 			end
 
 		else
-			print('Unknown type:' .. mType)
+			error('Unknown menu type:' .. mType .. ' for menu index ' .. mIndex)
 		end
 		
 		lcd.drawText(m[LAYOUT_X], m[LAYOUT_Y], mLabel, attributes)
