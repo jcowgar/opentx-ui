@@ -7,6 +7,7 @@
 --
 
 local m = dofile('/SCRIPTS/LIBRARY/menu.lua')
+local cfg = dofile('/SCRIPTS/LIBRARY/config.lua')
 
 --
 -- My menu
@@ -30,6 +31,8 @@ local menu = {
 -- My configuration
 --
 
+local CONFIG_FILENAME = '/example.cfg'
+
 local config = {
 	ThrottleChannel = 1,
 	AileronChannel = 2,
@@ -42,7 +45,7 @@ local config = {
 --
 
 local function init_func(keyEvent)
-	-- Read configuration file
+	config = cfg.read(CONFIG_FILENAME, config)
 end
 
 local function run_func(keyEvent)
@@ -57,6 +60,8 @@ local function run_func(keyEvent)
 	elseif button == BUTTON_SAVE then
 		-- User pressed Save
 		playTone(600, 400, 0)
+		
+		cfg.write(CONFIG_FILENAME, config)
 		
 	elseif button == nil then
 		-- User did not press a button

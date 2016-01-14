@@ -6,7 +6,9 @@ User Interface library code for OpenTX
 
 Please see the included `example.lua` for a full, working example of the script.
 
-## Usage
+## Menu
+
+### Usage
 
 Include `menu.lua` in your Lua source
 
@@ -56,7 +58,7 @@ elseif result == BUTTON_OK then
 end
 ```
 
-## Menu Layout
+### Menu Layout
 
 The menu should be defined as a table of sub-tables. Each sub-table will become a new
 menu entry. A menu entry layout is defined by:
@@ -68,7 +70,7 @@ menu entry. A menu entry layout is defined by:
 5. Y location of Label
 6. Additional Parameters - defined by the `TYPE` of menu entry
 
-## Menu Types
+### Menu Types
 
 * `TYPE_INTEGER` -- Contains two additional parameters, `min` and `max`
 * `TYPE_STRING` -- Not yet supported
@@ -76,3 +78,36 @@ menu entry. A menu entry layout is defined by:
 * `TYPE_YES_NO` -- No additional parameters
 * `TYPE_BUTTON` -- No additional parameters. The `value` part, however, is returned as
   the `event` if pressed. Thus, the `value` of a button should not be any standard `EVT_` values
+
+## Config
+
+Read and write configuration files based on a table
+
+### Usage
+
+Include `config.lua` in your Lua source
+
+```
+local config = dofile('/SCRIPTS/LIBRARY/config.lua')
+```
+
+Create a configuration table with default values
+
+```
+local setup = {
+	ThrottleChannel = 1,
+	SpeakSounds = true,
+	LapSwitch = 3
+}
+```
+
+Load load and save your configuration from disk
+
+```
+local function do_something()
+	setup = config.read('/example.cfg', setup)
+	config.write('/example.cfg', setup)
+end
+```
+
+
