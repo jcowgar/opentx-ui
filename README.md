@@ -73,7 +73,7 @@ menu entry. A menu entry layout is defined by:
 ### Menu Types
 
 * `TYPE_INTEGER` -- Contains two additional parameters, `min` and `max`
-* `TYPE_STRING` -- Not yet supported
+* `TYPE_STRING` -- Contains one additional parameter, max size
 * `TYPE_LIST` -- Contains one additional parameter, an array of list values
 * `TYPE_YES_NO` -- No additional parameters
 * `TYPE_BUTTON` -- No additional parameters. The `value` part, however, is returned as
@@ -113,4 +113,7 @@ end
 
 ## Release History
 
-* **Version 0.2.0 -- Jan 14, 2016**: First public release, a lot can/will change still.
+* **Version 0.3.0 -- Jan 14, 2016 (evening)**: String editing now functions, although it
+  is not an exact replica of OpenTX string editing, that will come in a future release.
+* **Version 0.2.0 -- Jan 14, 2016 (morning)**: First public release, a lot can/will
+  change still.

@@ -13,6 +13,21 @@ local LAYOUT_X = 4
 local LAYOUT_Y = 5
 local LAYOUT_FIRST_PARAM = 6
 
+local SPACES = '                              '
+
+local function edit_character(value, position, dir)
+	local b = string.byte(value, position)
+	b = b + dir
+	
+	if b < 32 then
+		b = 126
+	elseif b > 126 then
+		b = 32
+	end
+	
+	return string.sub(value, 1, position - 1)..string.char(b)..string.sub(value, position + 1, #value)
+end
+
 function menu.handle_edit_key_event_integer_real(mnu, values, keyEvent, min, max)
 	local m = mnu[mnu.CurrentField]
 
@@ -42,6 +57,47 @@ end
 
 function menu.handle_edit_key_event_string(mnu, values, keyEvent)
 	local m = mnu[mnu.CurrentField]
+	
+	if keyEvent == EVT_MINUS_FIRST or keyEvent == EVT_MINUS_RPT then
+		values[m[LAYOUT_VALUE]] = edit_character(
+			values[m[LAYOUT_VALUE]],
+			mnu.EditColumn, -1)
+
+	elseif keyEvent == EVT_PLUS_FIRST or keyEvent == EVT_PLUS_RPT then
+		values[m[LAYOUT_VALUE]] = edit_character(
+			values[m[LAYOUT_VALUE]],
+			mnu.EditColumn, 1)
+
+	elseif keyEvent == EVT_ENTER_BREAK then
+		mnu.EditColumn = mnu.EditColumn + 1
+		
+	elseif keyEvent == EVT_EXIT_BREAK then
+		mnu.IsEditing = false
+		return 0
+	end
+	
+	if mnu.EditColumn > m[LAYOUT_FIRST_PARAM] then
+		mnu.IsEditing = false
+		return 0
+	end
+	
+	local value = values[m[LAYOUT_VALUE]]
+	
+	-- Pad our value with spaces at the end, only for display purposes
+	value = value .. string.sub(SPACES, #value, #value + m[LAYOUT_FIRST_PARAM])
+	
+	for idx = 1, #value do
+		local ch = string.sub(value, idx, idx)
+		local attributes = 0
+		if idx == mnu.EditColumn then
+			attributes = INVERS
+		end
+		
+		local x = ((idx - 1) * 7) + mnu.ValueColumn
+		local y = m[LAYOUT_Y]
+		
+		lcd.drawText(x, y, ch, attributes)
+	end
 end
 
 function menu.handle_edit_key_event_list(mnu, values, keyEvent)
@@ -103,6 +159,7 @@ function menu.handle_nav_key_event(mnu, values, keyEvent)
 			return mnu[mnu.CurrentField][LAYOUT_VALUE]
 		else
 			mnu.IsEditing = true
+			mnu.EditColumn = 1
 			
 			return 0
 		end
@@ -140,7 +197,10 @@ function menu.execute(mnu, values, keyEvent)
 			value = string.format('%d', value)
 		
 		elseif mType == menu.TYPE_STRING then
-			-- nothing to do
+			-- We do not want to draw the value here if we are editing this string
+			if mIndex == mnu.CurrentField and mnu.IsEditing then
+				value = nil
+			end
 			
 		elseif mType == menu.TYPE_LIST then
 			value = m[LAYOUT_FIRST_PARAM][value]
