@@ -113,4 +113,7 @@ end
 
 ## Release History
 
-* **Version 0.2.0 -- Jan 14, 2016**: First public release, a lot can/will change still.
+* **Version 0.3.0 -- Jan 14, 2016 (evening)**: String editing now functions, although it
+  is not an exact replica of OpenTX string editing, that will come in a future release.
+* **Version 0.2.0 -- Jan 14, 2016 (morning)**: First public release, a lot can/will
+  change still.
