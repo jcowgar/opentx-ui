@@ -111,3 +111,6 @@ end
 ```
 
 
+## Release History
+
+* **Version 0.2.0 -- Jan 14, 2016**: First public release, a lot can/will change still.
