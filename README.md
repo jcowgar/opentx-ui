@@ -73,7 +73,7 @@ menu entry. A menu entry layout is defined by:
 ### Menu Types
 
 * `TYPE_INTEGER` -- Contains two additional parameters, `min` and `max`
-* `TYPE_STRING` -- Not yet supported
+* `TYPE_STRING` -- Contains one additional parameter, max size
 * `TYPE_LIST` -- Contains one additional parameter, an array of list values
 * `TYPE_YES_NO` -- No additional parameters
 * `TYPE_BUTTON` -- No additional parameters. The `value` part, however, is returned as

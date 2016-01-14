@@ -19,8 +19,8 @@ local SWITCH_NAMES = { 'sa', 'sb', 'sc', 'sd', 'se', 'sf', 'sg', 'sh' }
 
 local menu = {
 	ValueColumn = 115,
-	{ m.TYPE_INTEGER, 'Throttle Channel', 'ThrottleChannel', 10, 11, 1, 16 },
-	{ m.TYPE_INTEGER, 'Aileron Channel', 'AileronChannel', 10, 21, 1, 16 },
+	{ m.TYPE_STRING, 'Racer Name', 'RacerName', 10, 11, 12 },
+	{ m.TYPE_INTEGER, 'Throttle Channel', 'ThrottleChannel', 10, 21, 1, 16 },
 	{ m.TYPE_YES_NO, 'Speak', 'SpeakSounds', 10, 31 },
 	{ m.TYPE_LIST, 'Lap Switch', 'LapSwitch', 10, 41, SWITCH_NAMES },
 	{ m.TYPE_BUTTON, 'Save', BUTTON_SAVE, 10, 51 },
@@ -35,9 +35,9 @@ local CONFIG_FILENAME = '/example.cfg'
 
 local config = {
 	ThrottleChannel = 1,
-	AileronChannel = 2,
 	SpeakSounds = true,
-	LapSwitch = 3
+	LapSwitch = 3,
+	RacerName = 'No Name'
 }
 
 --
