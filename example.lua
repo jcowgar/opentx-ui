@@ -2,8 +2,8 @@
 -- Script constants/setup
 -- 
 
-local BUTTON_CANCEL = 0
-local BUTTON_SAVE = 1
+local BUTTON_CANCEL = -1
+local BUTTON_SAVE = -2
 local SWITCH_NAMES = { 'sa', 'sb', 'sc', 'sd', 'se', 'sf', 'sg', 'sh' }
 
 local config = {
@@ -44,8 +44,12 @@ local function run_func(keyEvent)
 	local button = m.execute(menu, config, keyEvent)
 	if button == BUTTON_CANCEL then
 		-- User press Cancel
+		playTone(200, 400, 0)
+		
 	elseif button == BUTTON_SAVE then
 		-- User pressed Save
+		playTone(600, 400, 0)
+		
 	elseif button == nil then
 		-- User did not press a button
 	end
