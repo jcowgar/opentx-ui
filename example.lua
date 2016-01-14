@@ -2,22 +2,19 @@
 -- Script constants/setup
 -- 
 
-local BUTTON_CANCEL = -1
-local BUTTON_SAVE = -2
-local SWITCH_NAMES = { 'sa', 'sb', 'sc', 'sd', 'se', 'sf', 'sg', 'sh' }
-
-local config = {
-	ThrottleChannel = 1,
-	AileronChannel = 2,
-	SpeakSounds = true,
-	LapSwitch = 3
-}
-
 --
--- Reusable menu code
+-- Reusable code
 --
 
 local m = dofile('/SCRIPTS/LIBRARY/menu.lua')
+
+--
+-- My menu
+--
+
+local BUTTON_CANCEL = -1
+local BUTTON_SAVE = -2
+local SWITCH_NAMES = { 'sa', 'sb', 'sc', 'sd', 'se', 'sf', 'sg', 'sh' }
 
 local menu = {
 	ValueColumn = 115,
@@ -27,6 +24,17 @@ local menu = {
 	{ m.TYPE_LIST, 'Lap Switch', 'LapSwitch', 10, 41, SWITCH_NAMES },
 	{ m.TYPE_BUTTON, 'Save', BUTTON_SAVE, 10, 51 },
 	{ m.TYPE_BUTTON, 'Cancel', BUTTON_CANCEL, 50, 51 }
+}
+
+--
+-- My configuration
+--
+
+local config = {
+	ThrottleChannel = 1,
+	AileronChannel = 2,
+	SpeakSounds = true,
+	LapSwitch = 3
 }
 
 --
