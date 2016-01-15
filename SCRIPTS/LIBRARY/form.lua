@@ -183,8 +183,18 @@ function form.execute(frm, values, keyEvent)
 	if frm.CurrentField == nil then
 		-- Configure the menu editor for the first time
 		
-		frm.CurrentField = 1
 		frm.IsEditing = false
+		
+		-- Find the first selectable field
+		for fIndex = 1, #frm do
+			local f = frm[fIndex]
+			local fType = f[LAYOUT_TYPE]
+			
+			if fType ~= form.TYPE_PIXMAP and fType ~= form.TYPE_TEXT then
+				frm.CurrentField = fIndex
+				break
+			end
+		end
 	end
 	
 	if frm.IsEditing then
@@ -236,7 +246,8 @@ function form.execute(frm, values, keyEvent)
 			attributes = f[LAYOUT_FIRST_PARAM]
 	
 		elseif fType == form.TYPE_PIXMAP then
-			lcd.drawPixmap(f[LAYOUT_X], f[LAYOUT_Y], value)
+			lcd.drawPixmap(f[LAYOUT_X], f[LAYOUT_Y], fLabel)
+			fLabel = nil
 			
 		else
 			error('Unknown menu type:' .. fType .. ' for menu index ' .. fIndex)
