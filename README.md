@@ -110,6 +110,37 @@ local function do_something()
 end
 ```
 
+## Widgets
+
+Miscellaneous widgets
+
+### Use
+
+Include `widges.lua` in your Lua source
+
+```
+local wig = dofile('/SCRIPTS/LIBRARY/widgets.lua')
+```
+
+### drawScrollbar(x, y, h, offset, count, visible)
+
+* **x** -- x location of the scrollbar
+* **y** -- y location of the scrollbar
+* **h** -- height of the scrollbar
+* **offset** -- offset of the scrollbar
+* **count** -- number of items the scroll bar represents
+* **visible** -- number of items the display shows at one time
+
+An example:
+
+```
+--
+-- Right side of the screen, on item 5 of 10 and the screen can display
+-- 5 items at a time
+--
+
+wig.drawScrollbar(211, 0, 63, 5, 10, 5)
+```
 
 ## Release History
 

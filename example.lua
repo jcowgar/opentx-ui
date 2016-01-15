@@ -8,6 +8,7 @@
 
 local m = dofile('/SCRIPTS/LIBRARY/menu.lua')
 local cfg = dofile('/SCRIPTS/LIBRARY/config.lua')
+local wig = dofile('/SCRIPTS/LIBRARY/widgets.lua')
 
 --
 -- My menu
@@ -51,18 +52,18 @@ end
 local function run_func(keyEvent)
 	lcd.clear()
 	lcd.drawScreenTitle('Menu Example', 1, 1)
-
+	
 	local button = m.execute(menu, config, keyEvent)
 	if button == BUTTON_CANCEL then
 		-- User press Cancel
 		playTone(200, 400, 0)
-		
+	
 	elseif button == BUTTON_SAVE then
 		-- User pressed Save
 		playTone(600, 400, 0)
-		
+	
 		cfg.write(CONFIG_FILENAME, config)
-		
+	
 	elseif button == nil then
 		-- User did not press a button
 	end
