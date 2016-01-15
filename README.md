@@ -6,28 +6,27 @@ User Interface library code for OpenTX
 
 Please see the included `example.lua` for a full, working example of the script.
 
-## Menu
+## Form
 
 ### Usage
 
-Include `menu.lua` in your Lua source
+Include `form.lua` in your Lua source
 
 ```
-local menu = dofile('/SCRIPTS/LIBRARY/menu.lua')
+local form = dofile('/SCRIPTS/LIBRARY/form.lua')
 ```
 
-Define a menu structure and table to hold values
+Define a form structure and table to hold values
 
 ```
 local SWITCH_NAMES = { 'sa', 'sb', 'sc', 'sd' }
 local BUTTON_OK = -5
 
-local setupMenu = {
-	ValueColumn = 115,
-	{ menu.TYPE_INTEGER, 'Throttle Channel', 'ThrottleChannel', 10, 11, 1, 16 },
-	{ m.TYPE_LIST, 'Lap Switch', 'LapSwitch', 10, 21, SWITCH_NAMES },
-	{ menu.TYPE_YES_NO, 'Speak', 'SpeakSounds', 10, 31 },
-	{ menu.TYPE_BUTTON, 'Ok', BUTTON_OK, 10, 41 }
+local setupForm = {
+	{ form.TYPE_INTEGER, 'Throttle Channel', 'ThrottleChannel', 10, 11, 1, 16 },
+	{ form.TYPE_LIST, 'Lap Switch', 'LapSwitch', 10, 21, SWITCH_NAMES },
+	{ form.TYPE_YES_NO, 'Speak', 'SpeakSounds', 10, 31 },
+	{ form.TYPE_BUTTON, 'Ok', BUTTON_OK, 10, 41 }
 }
 
 local setup = {
@@ -37,14 +36,14 @@ local setup = {
 }
 ```
 
-Call the `execute` method of the menu class
+Call the `execute` method
 
 ```
 local function run_func(keyEvent)
 	lcd.clear()
 	lcd.drawScreenTitle('Menu Example', 1, 1)
 
-	local result = menu.execute(setupMenu, setup, keyEvent)
+	local result = form.execute(setupForm, setup, keyEvent)
 end
 ```
 
@@ -58,19 +57,19 @@ elseif result == BUTTON_OK then
 end
 ```
 
-### Menu Layout
+### Form Layout
 
-The menu should be defined as a table of sub-tables. Each sub-table will become a new
-menu entry. A menu entry layout is defined by:
+The form should be defined as a table of sub-tables. Each sub-table will become a new
+form entry. A form entry layout is defined by:
 
-1. Type of menu entry. See `TYPE_` constants
+1. Type of entry. See `TYPE_` constants
 2. Label to display
 3. Value key to read and write to passed in the values parameter of the `execute` method
 4. X location of Label
 5. Y location of Label
-6. Additional Parameters - defined by the `TYPE` of menu entry
+6. Additional Parameters - defined by the `TYPE` of form entry
 
-### Menu Types
+### Form Types
 
 * `TYPE_INTEGER` -- Contains two additional parameters, `min` and `max`
 * `TYPE_STRING` -- Contains one additional parameter, max size
