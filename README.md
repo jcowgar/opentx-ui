@@ -77,6 +77,9 @@ form entry. A form entry layout is defined by:
 * `TYPE_YES_NO` -- No additional parameters
 * `TYPE_BUTTON` -- No additional parameters. The `value` part, however, is returned as
   the `event` if pressed. Thus, the `value` of a button should not be any standard `EVT_` values
+* `TYPE_TEXT` -- Not an editable field, just text display
+* `TYPE_PIXMAP` -- Not an editable field, just a pixmap display. Label should be
+  `nil` and Value should be the full path to the bitmap file.
 
 ## Config
 

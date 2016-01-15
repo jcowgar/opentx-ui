@@ -5,6 +5,8 @@ form.TYPE_STRING = 1
 form.TYPE_LIST = 2
 form.TYPE_YES_NO = 4
 form.TYPE_BUTTON = 5
+form.TYPE_TEXT = 6
+form.TYPE_PIXMAP = 7
 
 local LAYOUT_TYPE = 1
 local LAYOUT_LABEL = 2
@@ -136,22 +138,31 @@ function form.handle_edit_key_event(frm, values, keyEvent)
 end
 
 function form.handle_nav_key_event(frm, values, keyEvent)
+	local move = 0
+	
 	if keyEvent == EVT_MINUS_FIRST or keyEvent == EVT_MINUS_RPT then
-		frm.CurrentField = frm.CurrentField - 1
+		move = -1
+	elseif keyEvent == EVT_PLUS_FIRST or keyEvent == EVT_PLUS_RPT then
+		move = 1
+	end
+	
+	if move ~= 0 then
+		frm.CurrentField = frm.CurrentField + move
 	
 		if frm.CurrentField < 1 then
 			frm.CurrentField = #frm
-		end
-		
-		return 0
-
-	elseif keyEvent == EVT_PLUS_FIRST or keyEvent == EVT_PLUS_RPT then
-		frm.CurrentField = frm.CurrentField + 1
-	
-		if frm.CurrentField > #frm then
+		elseif frm.CurrentField > #frm then
 			frm.CurrentField = 1
 		end
 		
+		local fType = frm[frm.CurrentField][LAYOUT_TYPE]
+		
+		if fType == form.TYPE_PIXMAP or 
+			fType == form.TYPE_TEXT
+		then
+			return form.handle_nav_key_event(frm, values, keyEvent)
+		end
+				
 		return 0
 
 	elseif keyEvent == EVT_ENTER_BREAK then
@@ -191,7 +202,7 @@ function form.execute(frm, values, keyEvent)
 		local fType = f[LAYOUT_TYPE]
 		local fLabel = f[LAYOUT_LABEL]
 		local attributes = 0
-		
+
 		local value = values[f[LAYOUT_VALUE]]
 		if fType == form.TYPE_INTEGER then
 			value = string.format('%d', value)
@@ -218,30 +229,40 @@ function form.execute(frm, values, keyEvent)
 			if fIndex == frm.CurrentField then
 				attributes = INVERS
 			end
-
+			
+		elseif fType == form.TYPE_TEXT then
+			value = nil
+		
+			attributes = f[LAYOUT_FIRST_PARAM]
+	
+		elseif fType == form.TYPE_PIXMAP then
+			lcd.drawPixmap(f[LAYOUT_X], f[LAYOUT_Y], value)
+			
 		else
 			error('Unknown menu type:' .. fType .. ' for menu index ' .. fIndex)
 		end
 		
-		lcd.drawText(f[LAYOUT_X], f[LAYOUT_Y], fLabel, attributes)
-
-		if value ~= nil then
-			local x = frm.ValueColumn
-			if x == nil then
-				x = lcd.getLastPos() + 3
-			end
+		if fLabel ~= nil then
+			lcd.drawText(f[LAYOUT_X], f[LAYOUT_Y], fLabel, attributes)
 			
-			attributes = 0
-						
-			if fIndex == frm.CurrentField then
-				attributes = attributes + INVERS
-			
-				if frm.IsEditing then
-					attributes = attributes + BLINK
+			if value ~= nil then
+				local x = frm.ValueColumn
+				if x == nil then
+					x = lcd.getLastPos() + 3
 				end
-			end
 
-			lcd.drawText(x, f[LAYOUT_Y], value, attributes)
+				attributes = 0
+						
+				if fIndex == frm.CurrentField then
+					attributes = attributes + INVERS
+			
+					if frm.IsEditing then
+						attributes = attributes + BLINK
+					end
+				end
+
+				lcd.drawText(x, f[LAYOUT_Y], value, attributes)
+			end
 		end
 	end
 end
